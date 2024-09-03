@@ -23,7 +23,10 @@ type Message struct {
 var clients = make(map[*websocket.Conn]bool)
 
 // Channel para transporte dos dados pela gorotine
-var broadcast = make(chan Message)
+var broadcast = make(chan struct {
+	Message Message
+	Sender  *websocket.Conn
+})
 
 // Main
 func main() {
@@ -71,7 +74,10 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// Passa os dados para o channel
-		broadcast <- msg
+		broadcast <- struct {
+			Message Message
+			Sender  *websocket.Conn
+		}{msg, conn}
 	}
 
 }
@@ -79,14 +85,18 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 // Recebe os dados do broadcast
 func handleMessages() {
 	for {
-		msg := <-broadcast
+		data := <-broadcast
+		msg := data.Message
+		sender := data.Sender
 
 		for client := range clients {
-			err := client.WriteJSON(msg)
-			if err != nil {
-				fmt.Println(err)
-				client.Close()
-				delete(clients, client)
+			if client != sender {
+				err := client.WriteJSON(msg)
+				if err != nil {
+					fmt.Println(err)
+					client.Close()
+					delete(clients, client)
+				}
 			}
 		}
 	}
