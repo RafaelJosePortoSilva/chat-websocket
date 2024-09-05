@@ -2,6 +2,7 @@ package services
 
 import (
 	"chat-websocket/models"
+	"fmt"
 
 	"github.com/gorilla/websocket"
 )
@@ -17,6 +18,7 @@ var Broadcast = make(chan struct {
 
 func RegisterClient(conn *websocket.Conn) {
 	Clients[conn] = true
+	fmt.Println("Nova Conexão")
 }
 
 func DeleteClient(conn *websocket.Conn) {
