@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat WebSocket</title>
+</head>
+<body>
+    <h1>Chat via WebSocket</h1>
+    
+    <form id="messageForm">
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="text" id="message" placeholder="Enter your message" required>
+        <button type="submit">Send</button>
+    </form>
+
+    <div id="chat">
+        <h2>Chat Messages</h2>
+        <ul id="messagesList"></ul>
+    </div>
+
+    <script>
+        const ws = new WebSocket("ws://localhost:8080/ws");
+
+        ws.onopen = () => {
+            console.log("Connected to WebSocket");
+        };
+
+        ws.onmessage = (event) => {
+            const msg = JSON.parse(event.data);
+            const messagesList = document.getElementById("messagesList");
+            const newMessage = document.createElement("li");
+            newMessage.textContent = `[${msg.username}]: ${msg.message}`;
+            messagesList.appendChild(newMessage);
+        };
+
+        ws.onclose = () => {
+            console.log("Disconnected from WebSocket");
+        };
+
+        const form = document.getElementById("messageForm");
+
+        form.addEventListener("submit", (event) => {
+            event.preventDefault();
+
+            const username = document.getElementById("username").value;
+            const message = document.getElementById("message").value;
+
+            const msg = {
+                username: username,
+                message: message
+            };
+
+            ws.send(JSON.stringify(msg));
+
+            document.getElementById("message").value = ""; // Limpa o campo de mensagem
+        });
+    </script>
+</body>
+</html>
