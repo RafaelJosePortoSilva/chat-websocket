@@ -53,7 +53,7 @@ func HandleMessages() {
 
 			messageToSend := msg
 
-			messageToSend.IsSender = (sender == client)
+			messageToSend.IsSender = (client == sender)
 
 			err := client.WriteJSON(messageToSend)
 			if err != nil {

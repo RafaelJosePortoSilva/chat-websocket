@@ -30,9 +30,11 @@
             const msg = JSON.parse(event.data);
             const messagesList = document.getElementById("messagesList");
             const newMessage = document.createElement("li");
+
+            console.log("Received message:", msg);
     
             // Se o cliente é o remetente, alinha a mensagem à direita
-            if (msg.isSender) {
+            if (msg.issender) {
                 newMessage.style.textAlign = "right";
                 newMessage.textContent = `[${msg.username}]: ${msg.message}`;
             } else {
