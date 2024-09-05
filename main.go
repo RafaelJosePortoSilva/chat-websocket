@@ -10,7 +10,7 @@ import (
 func main() {
 
 	// Setup das rotas
-	http.HandleFunc("/", handlers.HomePage)
+	http.Handle("/", http.FileServer(http.Dir("./static")))
 	http.HandleFunc("/ws", handlers.HandleConnections)
 
 	// Go Routine com loop do websocket
