@@ -50,13 +50,16 @@ func HandleMessages() {
 		sender := data.Sender
 
 		for client := range services.Clients {
-			if client != sender {
-				err := client.WriteJSON(msg)
-				if err != nil {
-					fmt.Println(err)
-					client.Close()
-					services.DeleteClient(client)
-				}
+
+			messageToSend := msg
+
+			messageToSend.IsSender = (sender == client)
+
+			err := client.WriteJSON(messageToSend)
+			if err != nil {
+				fmt.Println(err)
+				client.Close()
+				services.DeleteClient(client)
 			}
 		}
 	}

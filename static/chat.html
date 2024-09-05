@@ -21,40 +21,67 @@
 
     <script>
         const ws = new WebSocket("ws://localhost:8080/ws");
-
+    
         ws.onopen = () => {
             console.log("Connected to WebSocket");
         };
-
+    
         ws.onmessage = (event) => {
             const msg = JSON.parse(event.data);
             const messagesList = document.getElementById("messagesList");
             const newMessage = document.createElement("li");
-            newMessage.textContent = `[${msg.username}]: ${msg.message}`;
+    
+            // Se o cliente é o remetente, alinha a mensagem à direita
+            if (msg.isSender) {
+                newMessage.style.textAlign = "right";
+                newMessage.textContent = `[${msg.username}]: ${msg.message}`;
+            } else {
+                newMessage.textContent = `[${msg.username}]: ${msg.message}`;
+            }
+    
             messagesList.appendChild(newMessage);
         };
-
+    
         ws.onclose = () => {
             console.log("Disconnected from WebSocket");
         };
-
+    
         const form = document.getElementById("messageForm");
-
+    
         form.addEventListener("submit", (event) => {
             event.preventDefault();
-
+    
             const username = document.getElementById("username").value;
             const message = document.getElementById("message").value;
-
+    
             const msg = {
                 username: username,
                 message: message
             };
-
+    
             ws.send(JSON.stringify(msg));
-
+    
             document.getElementById("message").value = ""; // Limpa o campo de mensagem
         });
     </script>
+    <style>
+        ul {
+            list-style-type: none;
+        }
+    
+        li {
+            margin-bottom: 10px;
+            padding: 5px;
+            border-radius: 5px;
+            max-width: 60%;
+            background-color: #f1f1f1;
+        }
+    
+        /* Mensagens do remetente alinhadas à direita */
+        li[style*="text-align: right"] {
+            background-color: #cfe9ff;
+            margin-left: auto;
+        }
+    </style>
 </body>
 </html>
