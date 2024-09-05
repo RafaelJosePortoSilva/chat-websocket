@@ -37,6 +37,7 @@ func HandleConnections(w http.ResponseWriter, r *http.Request) {
 			services.DeleteClient(conn)
 			return
 		}
+		services.BroadcastMessage(msg, conn)
 	}
 
 }
