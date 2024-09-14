@@ -1,0 +1,19 @@
+ul {
+    list-style-type: none;
+}
+
+li {
+    margin-bottom: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    max-width: 60%;
+    background-color: #f3f172;
+}
+
+/* Mensagens do remetente alinhadas à direita */
+
+.sender-message {
+    background-color: #cfe9ff;
+    margin-left: auto;
+    text-align: right;
+}

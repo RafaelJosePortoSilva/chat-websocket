@@ -9,8 +9,13 @@ import (
 // Main
 func main() {
 
+	fs := http.FileServer(http.Dir("./static"))
+	http.Handle("/static/", http.StripPrefix("/static/", fs))
+
 	// Setup das rotas
-	http.Handle("/", http.FileServer(http.Dir("./static")))
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "./static/chat.html")
+	})
 	http.HandleFunc("/ws", handlers.HandleConnections)
 
 	// Go Routine com loop do websocket
