@@ -3,6 +3,7 @@ ul {
 }
 
 li {
+    text-align: left;
     margin-bottom: 10px;
     padding: 5px;
     border-radius: 5px;
@@ -10,10 +11,28 @@ li {
     background-color: #f3f172;
 }
 
-/* Mensagens do remetente alinhadas à direita */
+.corpo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;     
+    height: 100vh; 
+}
 
+
+/* Mensagens do remetente alinhadas à direita */
 .sender-message {
     background-color: #cfe9ff;
     margin-left: auto;
     text-align: right;
+}
+
+.formulario{
+    display: block;
+    width: 50vw;
+    text-align: center;
+}
+
+.chat{
+    width: 50vw;
+    text-align: center;
 }

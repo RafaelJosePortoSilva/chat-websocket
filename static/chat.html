@@ -8,21 +8,26 @@
     <!-- Inclui o arquivo CSS -->
     <link rel="stylesheet" type="text/css" href="static/css/style.css">
 </head>
+
 <body>
-    <h1>Chat via WebSocket</h1>
-    
-    <form id="messageForm">
-        <input type="text" id="usernameInput" placeholder="Username" required>
-        <input type="text" id="messageInput" placeholder="Enter your message" required>
-        <button type="submit" id="sendButton">Send</button>
-    </form>
+    <div class="corpo">
+        <span class="containerTitle""><h1 class="title">Chat via WebSocket</h1></span>
+        
+        <div class="formulario">
+            <form id="messageForm">
+                <input type="text" id="usernameInput" placeholder="Username" required>
+                <input type="text" id="messageInput" placeholder="Enter your message" required>
+                <button type="submit" id="sendButton">Send</button>
+            </form>
+        </div>
 
-    <div id="chat">
-        <h2>Chat Messages</h2>
-        <ul id="messagesList"></ul>
-    </div> 
-
+        <div class="chat">
+            <h2>Chat Messages</h2>
+            <ul id="messagesList"></ul>
+        </div> 
+    </div>
 
     <script src="static/js/script.js"></script>
 </body>
+
 </html>
