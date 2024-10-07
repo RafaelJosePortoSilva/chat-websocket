@@ -2,18 +2,19 @@ package services
 
 import (
 	"fmt"
+	"chat-websocket/models"
 )
 
 // Procurar hash username e retornar senha
 // Não é feito para ser seguro
 var Accounts = make(map[*string]string)
 
-func NewAccount(username string, password string) {
+func NewAccount(username string, password string) *models.Account, error{
 	if FetchAccount(&username) != "" {
 		Accounts[&username] = password
-		fmt.Printf("User %s created", username)
+		return Accounts[&username], nil
 	} else {
-		fmt.Printf("User %s already exists", username)
+		return nil, fmt.Errorf("User %s already exists", username)
 	}
 }
 
