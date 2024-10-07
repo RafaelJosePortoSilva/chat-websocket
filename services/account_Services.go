@@ -8,8 +8,8 @@ import (
 // Não é feito para ser seguro
 var Accounts = make(map[*string]string)
 
-func newAccount(username string, password string) {
-	if fetchAccount(&username) != "" {
+func NewAccount(username string, password string) {
+	if FetchAccount(&username) != "" {
 		Accounts[&username] = password
 		fmt.Printf("User %s created", username)
 	} else {
@@ -17,7 +17,7 @@ func newAccount(username string, password string) {
 	}
 }
 
-func fetchAccount(username *string) string {
+func FetchAccount(username *string) string {
 	if Accounts[username] != "" {
 		return Accounts[username]
 	} else {
@@ -25,8 +25,8 @@ func fetchAccount(username *string) string {
 	}
 }
 
-func authAccount(username *string, password *string) bool {
-	if fetchAccount(username) != "" && *password != "" {
+func AuthAccount(username *string, password *string) bool {
+	if FetchAccount(username) != "" && *password != "" {
 		return (Accounts[username] == *password)
 	} else {
 		fmt.Printf("User %s doesn't exists or the password is invalid.", *username)

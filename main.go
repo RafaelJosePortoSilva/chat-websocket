@@ -16,6 +16,7 @@ func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "./static/chat.html")
 	})
+	http.HandleFunc("/auth", handlers.HandleAuth)
 	http.HandleFunc("/ws", handlers.HandleConnections)
 
 	// Go Routine com loop do websocket
