@@ -2,25 +2,26 @@ package services
 
 import (
 	"fmt"
-	"chat-websocket/models"
 )
 
 // Procurar hash username e retornar senha
 // Não é feito para ser seguro
-var Accounts = make(map[*string]string)
+var Accounts = make(map[string]string)
 
-func NewAccount(username string, password string) *models.Account, error{
+func NewAccount(username string, password string) (*string, error){
+	fmt.Println(username)
 	if FetchAccount(&username) != "" {
-		Accounts[&username] = password
-		return Accounts[&username], nil
+		return &username, fmt.Errorf("User %s already exists", username)
 	} else {
-		return nil, fmt.Errorf("User %s already exists", username)
+		Accounts[username] = password
+		return &username, nil
 	}
 }
 
 func FetchAccount(username *string) string {
-	if Accounts[username] != "" {
-		return Accounts[username]
+	fmt.Printf("Conta: %s\n",Accounts[*username])
+	if Accounts[*username] != "" {
+		return Accounts[*username]
 	} else {
 		return ""
 	}
@@ -28,7 +29,7 @@ func FetchAccount(username *string) string {
 
 func AuthAccount(username *string, password *string) bool {
 	if FetchAccount(username) != "" && *password != "" {
-		return (Accounts[username] == *password)
+		return (Accounts[*username] == *password)
 	} else {
 		fmt.Printf("User %s doesn't exists or the password is invalid.", *username)
 		return false
