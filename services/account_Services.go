@@ -8,7 +8,7 @@ import (
 // Não é feito para ser seguro
 var Accounts = make(map[string]string)
 
-func NewAccount(username string, password string) (*string, error){
+func NewAccount(username string, password string) (*string, error) {
 	fmt.Println(username)
 	if FetchAccount(&username) != "" {
 		return &username, fmt.Errorf("User %s already exists", username)
@@ -19,7 +19,7 @@ func NewAccount(username string, password string) (*string, error){
 }
 
 func FetchAccount(username *string) string {
-	fmt.Printf("Conta: %s\n",Accounts[*username])
+	fmt.Printf("Conta: %s\n", Accounts[*username])
 	if Accounts[*username] != "" {
 		return Accounts[*username]
 	} else {
