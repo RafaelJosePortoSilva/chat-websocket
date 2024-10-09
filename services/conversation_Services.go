@@ -31,9 +31,10 @@ func FetchConversationById(convID string) *models.Conversation {
 	return Conversations[convID]
 }
 
-func addUserToConversation(convID string, user *models.User) {
+func AddUserToConversation(userID string, convID string) {
 	conv := FetchConversationById(convID)
-	if conv != nil {
+	user := FetchUser(userID)
+	if conv != nil && user != nil {
 		conv.Clients = append(conv.Clients, *user)
 	}
 }

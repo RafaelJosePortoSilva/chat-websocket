@@ -6,3 +6,9 @@ type Message struct {
 	Message  string `json:"message"`
 	IsSender bool   `json:"issender"`
 }
+
+type Message2 struct {
+	IDUser  string `json:"IDUser"`
+	IDConv  string `json:"IDConv"`
+	Message string `json:"message"`
+}
