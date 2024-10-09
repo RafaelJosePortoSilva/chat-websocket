@@ -8,5 +8,5 @@ type User struct {
 	ID           string `json:"id"`
 	PhoneNumber  string `json:"phone_number"`
 	Name         string `json:"name"`
-	WsConnection websocket.Conn
+	WsConnection *websocket.Conn
 }

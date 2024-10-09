@@ -22,7 +22,7 @@ func NewAccount(username string, password string) (*string, error) {
 			IdUser:   generateUserID(),
 		}
 		Accounts[username] = &newAcc
-		newUs := newUser(newAcc.IdUser)
+		NewUser(newAcc.IdUser)
 		return &username, nil
 	}
 }

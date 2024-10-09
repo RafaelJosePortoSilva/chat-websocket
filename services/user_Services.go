@@ -9,12 +9,11 @@ var Users = make(map[string]*models.User)
 
 func NewUser(IdUser string) {
 
-	newUs := models.User{
+	Users[IdUser] = &models.User{
 		ID:          IdUser,
 		Name:        "",
 		PhoneNumber: "",
 	}
-	Users[IdUser] = &newUs
 	return
 }
 
