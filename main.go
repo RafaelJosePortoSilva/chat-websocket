@@ -18,12 +18,16 @@ func main() {
 	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", fs))
 
 	// Setup das rotas
-	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	r.HandleFunc("/chat", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "./static/chat.html")
 	})
 
-	r.HandleFunc("/auth", handlers.HandleAuth).Methods("POST")
-	r.HandleFunc("/auth/new", handlers.HandleCreateAccount).Methods("POST")
+	r.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "./static/login.html")
+	})
+	r.HandleFunc("/login/auth", handlers.HandleAuth).Methods("POST")
+	r.HandleFunc("/login/newauth", handlers.HandleCreateAccount).Methods("POST")
+
 	r.HandleFunc("/ws", handlers.HandleConnections).Methods("GET")
 
 	// Go Routine com loop do websocket

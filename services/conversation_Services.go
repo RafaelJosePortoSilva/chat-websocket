@@ -14,6 +14,7 @@ func SendMessagesToUsers(msg *models.Message, convID string) {
 	for _, user := range conversation.Clients {
 		BroadcastMessage(*msg, user.WsConnection)
 	}
+	conversation.Messages = append(conversation.Messages, *msg)
 
 }
 

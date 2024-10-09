@@ -41,3 +41,18 @@ func HandleAddUserToConversation(w http.ResponseWriter, r *http.Request) {
 	services.AddUserToConversation(req.IDUser, req.IDConv)
 
 }
+
+func HandleSendMessagesToUsers(w http.ResponseWriter, r *http.Request) {
+
+	var msg models.Message2
+
+	err := json.NewDecoder(r.Body).Decode(&msg)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(`{"message": "Requisição inválida"}`))
+		return
+	}
+
+	services.SendMessagesToUsers(&msg, msg.IDConv)
+
+}
