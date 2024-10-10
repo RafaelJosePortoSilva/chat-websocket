@@ -44,7 +44,7 @@ func HandleAddUserToConversation(w http.ResponseWriter, r *http.Request) {
 
 func HandleSendMessagesToUsers(w http.ResponseWriter, r *http.Request) {
 
-	var msg models.Message2
+	var msg models.Message
 
 	err := json.NewDecoder(r.Body).Decode(&msg)
 	if err != nil {

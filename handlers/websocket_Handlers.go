@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/gorilla/mux"
 	"github.com/gorilla/websocket"
 )
 
@@ -29,9 +28,6 @@ func HandleConnections(w http.ResponseWriter, r *http.Request) {
 	defer conn.Close()
 	services.RegisterClient(conn)
 
-	params := mux.Vars(r)
-	convID := params["idConv"]
-
 	// loop
 	for {
 		fmt.Println("Passou pelo loop do handleconnections")
@@ -43,7 +39,7 @@ func HandleConnections(w http.ResponseWriter, r *http.Request) {
 			services.DeleteClient(conn)
 			return
 		}
-		services.SendMessagesToUsers(&msg, convID)
+		services.SendMessagesToUsers(&msg, msg.IDConv)
 	}
 
 }
