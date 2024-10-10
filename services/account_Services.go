@@ -10,10 +10,11 @@ import (
 // Não é feito para ser seguro
 var Accounts = make(map[string]*models.Account)
 
-func NewAccount(username string, password string) (*string, error) {
-	fmt.Println(username)
+func NewAccount(username string, password string) error {
+
+	fmt.Printf("Nova conta: %s\n", username)
 	if FetchAccount(&username) != "" {
-		return &username, fmt.Errorf("user %s already exists", username)
+		return fmt.Errorf("user %s already exists", username)
 	} else {
 
 		newAcc := models.Account{
@@ -23,17 +24,18 @@ func NewAccount(username string, password string) (*string, error) {
 		}
 		Accounts[username] = &newAcc
 		NewUser(newAcc.IdUser)
-		return &username, nil
+		return nil
 	}
 }
 
 func FetchAccount(username *string) string {
-	fmt.Printf("Conta: %s\n", Accounts[*username].Username)
+
 	if Accounts[*username] != nil {
 		return Accounts[*username].IdUser
 	} else {
 		return ""
 	}
+
 }
 
 func AuthAccount(username *string, password *string) (bool, string) {

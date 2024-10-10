@@ -59,7 +59,7 @@ func HandleCreateAccount(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err = services.NewAccount(user, pass)
+	err = services.NewAccount(user, pass)
 	if err != nil {
 		fmt.Println(err)
 		w.WriteHeader(http.StatusConflict)

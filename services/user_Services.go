@@ -10,11 +10,11 @@ var Users = make(map[string]*models.User)
 func NewUser(IdUser string) {
 
 	Users[IdUser] = &models.User{
-		ID:          IdUser,
-		Name:        "",
-		PhoneNumber: "",
+		ID:           IdUser,
+		Name:         "",
+		PhoneNumber:  "",
+		WsConnection: nil,
 	}
-	return
 }
 
 func FetchUser(id string) *models.User {
