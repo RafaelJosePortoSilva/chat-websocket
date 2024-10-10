@@ -12,8 +12,8 @@ var Clients = make(map[*websocket.Conn]bool)
 
 // Channel para transporte dos dados pela gorotine
 var Broadcast = make(chan struct {
-	Message models.Message
-	Sender  *websocket.Conn
+	Message  models.Message
+	Receiver *websocket.Conn
 })
 
 func RegisterClient(conn *websocket.Conn) {
@@ -25,10 +25,10 @@ func DeleteClient(conn *websocket.Conn) {
 	delete(Clients, conn)
 }
 
-func BroadcastMessage(msg models.Message, sender *websocket.Conn) {
+func BroadcastMessage(msg models.Message, receiver *websocket.Conn) {
 	// Passa os dados para o channel
 	Broadcast <- struct {
-		Message models.Message
-		Sender  *websocket.Conn
-	}{msg, sender}
+		Message  models.Message
+		Receiver *websocket.Conn
+	}{msg, receiver}
 }

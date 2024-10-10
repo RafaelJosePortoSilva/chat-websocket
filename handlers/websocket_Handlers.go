@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/gorilla/mux"
 	"github.com/gorilla/websocket"
 )
 
@@ -28,8 +29,13 @@ func HandleConnections(w http.ResponseWriter, r *http.Request) {
 	defer conn.Close()
 	services.RegisterClient(conn)
 
+	params := mux.Vars(r)
+	convID := params["idConv"]
+
 	// loop
 	for {
+		fmt.Println("Passou pelo loop do handleconnections")
+
 		var msg models.Message
 		err := conn.ReadJSON(&msg)
 		if err != nil {
@@ -37,7 +43,7 @@ func HandleConnections(w http.ResponseWriter, r *http.Request) {
 			services.DeleteClient(conn)
 			return
 		}
-		services.BroadcastMessage(msg, conn)
+		services.SendMessagesToUsers(&msg, convID)
 	}
 
 }
@@ -47,20 +53,15 @@ func HandleMessages() {
 	for {
 		data := <-services.Broadcast
 		msg := data.Message
-		sender := data.Sender
+		client := data.Receiver
 
-		for client := range services.Clients {
+		messageToSend := msg
 
-			messageToSend := msg
-
-			messageToSend.IsSender = (client == sender)
-
-			err := client.WriteJSON(messageToSend)
-			if err != nil {
-				fmt.Println(err)
-				client.Close()
-				services.DeleteClient(client)
-			}
+		err := client.WriteJSON(messageToSend)
+		if err != nil {
+			fmt.Println(err)
+			client.Close()
+			services.DeleteClient(client)
 		}
 	}
 }

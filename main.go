@@ -21,6 +21,8 @@ func main() {
 	r.HandleFunc("/chat", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "./static/chat.html")
 	})
+	r.HandleFunc("/chat/{IDConv}", handlers.HandleSendMessagesToUsers).Methods("POST")
+	r.HandleFunc("/chat/{IDConv}/ws", handlers.HandleConnections).Methods("GET")
 
 	r.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "./static/login.html")
@@ -28,7 +30,8 @@ func main() {
 	r.HandleFunc("/login/auth", handlers.HandleAuth).Methods("POST")
 	r.HandleFunc("/login/newauth", handlers.HandleCreateAccount).Methods("POST")
 
-	r.HandleFunc("/ws", handlers.HandleConnections).Methods("GET")
+	r.HandleFunc("/conversation", handlers.HandleCreateConversation).Methods("POST")
+	r.HandleFunc("/conversation/user", handlers.HandleAddUserToConversation).Methods("POST")
 
 	// Go Routine com loop do websocket
 	go handlers.HandleMessages()
