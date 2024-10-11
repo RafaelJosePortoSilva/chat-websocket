@@ -3,6 +3,7 @@ package handlers
 import (
 	"chat-websocket/models"
 	"chat-websocket/services"
+	"encoding/json"
 
 	"fmt"
 	"net/http"
@@ -26,7 +27,17 @@ func HandleConnections(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer conn.Close()
-	services.RegisterClient(conn)
+
+	var msg models.Message
+
+	err = json.NewDecoder(r.Body).Decode(&msg)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(`{"message": "Requisição inválida"}`))
+		return
+	}
+
+	services.RegisterClient(conn, msg.IDUser)
 
 	// loop
 	for {

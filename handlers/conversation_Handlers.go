@@ -19,6 +19,9 @@ func HandleCreateConversation(w http.ResponseWriter, r *http.Request) {
 
 	if conv.Title != "" {
 		services.CreateConversation(conv.Title)
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte(`{"message": "Conversation has been created"}`))
+		return
 	} else {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte(`{"message": "Missing data"}`))

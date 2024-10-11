@@ -21,8 +21,8 @@ func main() {
 	r.HandleFunc("/chat", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "./static/chat.html")
 	})
-	r.HandleFunc("/chat/{IDConv}", handlers.HandleSendMessagesToUsers).Methods("POST")
-	r.HandleFunc("/chat/{IDConv}/ws", handlers.HandleConnections).Methods("GET")
+	r.HandleFunc("/chat/ws", handlers.HandleSendMessagesToUsers).Methods("GET")
+	//r.HandleFunc("/chat/{IDConv}/ws", handlers.HandleConnections).Methods("GET")
 
 	r.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "./static/login.html")

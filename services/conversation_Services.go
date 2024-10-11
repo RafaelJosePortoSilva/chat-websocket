@@ -12,7 +12,9 @@ func SendMessagesToUsers(msg *models.Message, convID string) {
 	conversation := FetchConversationById(convID)
 
 	for _, user := range conversation.Clients {
-		BroadcastMessage(*msg, user.WsConnection)
+		if user.WsConnection != nil {
+			BroadcastMessage(*msg, user.WsConnection)
+		}
 	}
 	conversation.Messages = append(conversation.Messages, *msg)
 

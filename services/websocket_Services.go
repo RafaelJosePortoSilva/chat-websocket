@@ -16,9 +16,15 @@ var Broadcast = make(chan struct {
 	Receiver *websocket.Conn
 })
 
-func RegisterClient(conn *websocket.Conn) {
-	Clients[conn] = true
-	fmt.Println("Nova Conexão")
+func RegisterClient(conn *websocket.Conn, IDUser string) {
+
+	user := FetchUser(IDUser)
+	if user != nil {
+		Clients[conn] = true
+		user.WsConnection = conn
+		fmt.Println("Nova Conexão")
+	}
+
 }
 
 func DeleteClient(conn *websocket.Conn) {
